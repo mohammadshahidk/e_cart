@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}"> 
+</head>
+<body>
+<div class="center">
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="txt_field">
+            <input type="text" id="email" name="email" required>
+            <span></span>
+            <label>Email</label>
+
+        </div>
+        <div class="txt_field">
+            <input type="password" id="password" formControlName="password" name="password" required>
+            <span></span>
+            <label>Password</label>
+        </div>
+        <div class="pass">Forgot Password?</div>
+        <input type="submit" id="btnSubmit" value="Login" onclick="LoginForm()">
+        <div class="signup_link">
+            Not Registered?<a href="http://127.0.0.1:5000/accounts/user/">Signup</a>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+function LoginForm() {
+let email = $('#email').val();
+let password = $('#password').val();
+
+
+$.ajax({
+    type: 'POST',
+    dataType: 'json',
+    data: {
+        "email": email,
+        "password": password,
+        csrfmiddlewaretoken: $('input[name-csrfmiddlewaretoken]').val()
+    },
+
+    url: "http://127.0.0.1:5000/accounts/login/",
+    error: function (error){
+      alert('invalid username or password')
+    },
+    success: function(data){
+        alert('Data Saved Successfully.');
+    }
+});
+};
+
+</script>
+</body>
+</html>
